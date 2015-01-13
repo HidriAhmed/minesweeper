@@ -1,6 +1,10 @@
 package com.ahidri.minesweeper;
 
 
+import com.ahidri.minesweeper.model.Position;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -24,16 +28,53 @@ public class MineSweeper {
         int[][] gridWithMines = this.createEmptyGrid(length, width);
 
         Random rand = new Random();
-        for (int i = 0; i < minesNumber ; i++) {
+        while(minesNumber > 0){
             int randomRow = rand.nextInt(length);
             int randomColumn = rand.nextInt(width);
-            if(gridWithMines[randomRow][randomColumn] == 0){
-                gridWithMines[randomRow][randomColumn] = 1;
-            }
-            else {
-                i--;
+            if(gridWithMines[randomRow][randomColumn] == 0) {
+                // cells with mine
+                gridWithMines[randomRow][randomColumn] = -1;
+
+                //update grid with computed adjacent mines
+                List<Position> adjacents = getAdjacents(length, width, new Position(randomColumn, randomRow));
+                for (Position adjacent : adjacents) {
+                    if(gridWithMines[adjacent.getVerticalPos()][adjacent.getHorizontalPos()] != -1){
+                        gridWithMines[adjacent.getVerticalPos()][adjacent.getHorizontalPos()]++;
+                    }
+                }
+                minesNumber--;
             }
         }
         return gridWithMines;
     }
+
+    public List<Position> getAdjacents(int gridLength, int gridWidth, Position position){
+        int posX = position.getHorizontalPos();
+        int posY = position.getVerticalPos();
+        Position topLeft = new Position(posX - 1, posY - 1);
+        Position topMiddle = new Position(posX, posY - 1);
+        Position topRight = new Position(posX + 1, posY - 1);
+        Position centerLeft = new Position(posX - 1, posY);
+        Position centerRight = new Position(posX + 1, posY);
+        Position bottomLeft = new Position(posX - 1, posY + 1);
+        Position bottomMiddle = new Position(posX, posY + 1);
+        Position bottomRight = new Position(posX +1, posY + 1);
+        return filterValidAdjacentToList(gridLength, gridWidth, topLeft, topMiddle, topRight,
+                                  centerLeft, centerRight, bottomLeft, bottomMiddle, bottomRight);
+
+    }
+
+    public List<Position> filterValidAdjacentToList(int gridLength, int gridWidth,Position... positions) {
+        List<Position> validAdjacents = new ArrayList<Position>();
+        for (Position position : positions) {
+            if (position.isInTheGrid(gridLength, gridWidth)) {
+                validAdjacents.add(position);
+            }
+
+        }
+        return validAdjacents;
+    }
+
+
+
 }
