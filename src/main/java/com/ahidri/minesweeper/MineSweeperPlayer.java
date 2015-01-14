@@ -46,6 +46,7 @@ public class MineSweeperPlayer {
         }
         else if(game.getCurrentGame() == null){
             System.out.println("Sorry You lost");
+            System.out.println(game.toStringInitializedGrid());
         }
     }
 

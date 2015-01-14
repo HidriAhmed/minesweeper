@@ -29,9 +29,9 @@ public class MineSweeperInitializer {
 
         Random rand = new Random();
         while(minesNumber > 0){
-            int randomRow = rand.nextInt(length);
-            int randomColumn = rand.nextInt(width);
-            if(gridWithMines[randomRow][randomColumn] == 0) {
+            int randomRow = rand.nextInt(length-1);
+            int randomColumn = rand.nextInt(width-1);
+            if(gridWithMines[randomRow][randomColumn] != -1) {
                 // cells with mine
                 gridWithMines[randomRow][randomColumn] = -1;
 

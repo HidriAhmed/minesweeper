@@ -5,7 +5,7 @@ import org.junit.Test;
 import static org.assertj.core.api.Assertions.*;
 
 /**
- * Created by ahidri on 14/01/15.
+ * Created by ahidri on 13/01/15.
  */
 public class MineSweeperGameTest {
 

@@ -68,6 +68,20 @@ public class MineSweeperGame {
         return result;
     }
 
+    public String toStringInitializedGrid(){
+        String result = "";
+        for (int i = 0; i < this.initializedGrid[0].length; i++) {
+            if(i != 0){
+                result += "\n";
+            }
+            for (int j = 0; j < this.initializedGrid.length; j++) {
+
+                result += this.initializedGrid[j][i] == -1 ? "*" : "-" ;
+            }
+        }
+        return result;
+    }
+
     public int[][] getInitializedGrid() {
         return initializedGrid;
     }
