@@ -11,6 +11,7 @@ public class MineSweeperGame {
 
     private int[][] initializedGrid;
     private String[][] currentGame;
+    private int uncoveredCellsNumber;
 
     public void createNewGame(int length, int width, int minesNumber) {
         MineSweeperInitializer initializer = new MineSweeperInitializer();
@@ -19,9 +20,10 @@ public class MineSweeperGame {
         currentGame = new String[length][width];
         for (int i = 0; i < length; i++) {
             for (int j = 0; j < width; j++) {
-                currentGame[i][j] = "";
+                currentGame[i][j] = "-";
             }
         }
+        uncoveredCellsNumber = length * width - minesNumber;
 
     }
 
@@ -38,6 +40,7 @@ public class MineSweeperGame {
         List<Position> adjacents = MineSweeperInitializer.getAdjacents(this.initializedGrid.length, this.initializedGrid[0].length, position);
         if (initializedGrid[verticalPos][horizontalPos] == 0) {
             this.currentGame[verticalPos][horizontalPos] = "U";
+            this.uncoveredCellsNumber --;
             for (Position adjacent : adjacents) {
                 uncoverCell(adjacent.getHorizontalPos(), adjacent.getVerticalPos());
             }
@@ -46,11 +49,28 @@ public class MineSweeperGame {
         }
     }
 
+    public String printCurrentGame(){
+        String result = "";
+        for (int i = 0; i < this.currentGame.length; i++) {
+            if(i != 0){
+                result += "\n";
+            }
+            for (int j = 0; j < this.currentGame.length; j++) {
+                result += this.currentGame[i][j] ;
+            }
+        }
+        return result;
+    }
+
     public int[][] getInitializedGrid() {
         return initializedGrid;
     }
 
     public String[][] getCurrentGame() {
         return currentGame;
+    }
+
+    public int getUncoveredCellsNumber() {
+        return uncoveredCellsNumber;
     }
 }
