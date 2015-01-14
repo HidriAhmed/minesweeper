@@ -1,4 +1,4 @@
-package com.ahidri.minesweeper;
+package com.ahidri.minesweeper.buisness;
 
 
 import com.ahidri.minesweeper.model.Position;
@@ -10,10 +10,10 @@ import java.util.Random;
 /**
  * Created by ahidri on 12/01/15.
  */
-public class MineSweeper {
+public class MineSweeperInitializer {
 
 
-    public int[][] createEmptyGrid(int length, int width) {
+     private int[][] createEmptyGrid(int length, int width) {
         int[][] grid = new int[length][width];
         for(int i= 0 ; i < length; i++){
             for (int j = 0; j < width; j++) {
@@ -48,7 +48,7 @@ public class MineSweeper {
         return gridWithMines;
     }
 
-    public List<Position> getAdjacents(int gridLength, int gridWidth, Position position){
+    public static List<Position> getAdjacents(int gridLength, int gridWidth, Position position){
         int posX = position.getHorizontalPos();
         int posY = position.getVerticalPos();
         Position topLeft = new Position(posX - 1, posY - 1);
@@ -64,7 +64,7 @@ public class MineSweeper {
 
     }
 
-    public List<Position> filterValidAdjacentToList(int gridLength, int gridWidth,Position... positions) {
+    public static List<Position> filterValidAdjacentToList(int gridLength, int gridWidth,Position... positions) {
         List<Position> validAdjacents = new ArrayList<Position>();
         for (Position position : positions) {
             if (position.isInTheGrid(gridLength, gridWidth)) {
