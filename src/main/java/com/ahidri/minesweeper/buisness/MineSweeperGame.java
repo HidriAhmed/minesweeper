@@ -42,21 +42,27 @@ public class MineSweeperGame {
             this.currentGame[verticalPos][horizontalPos] = "U";
             this.uncoveredCellsNumber --;
             for (Position adjacent : adjacents) {
-                uncoverCell(adjacent.getHorizontalPos(), adjacent.getVerticalPos());
+                if(isCoveredCell(adjacent)) {
+                    uncoverCell(adjacent.getHorizontalPos(), adjacent.getVerticalPos());
+                }
             }
         } else {
             this.currentGame[verticalPos][horizontalPos] = String.valueOf(initializedGrid[verticalPos][horizontalPos]);
         }
     }
 
-    public String printCurrentGame(){
+    private boolean isCoveredCell(Position adjacent) {
+        return !"U".equals(this.currentGame[adjacent.getVerticalPos()][adjacent.getHorizontalPos()]);
+    }
+
+    public String toStringCurrentGame(){
         String result = "";
-        for (int i = 0; i < this.currentGame.length; i++) {
+        for (int i = 0; i < this.currentGame[0].length; i++) {
             if(i != 0){
                 result += "\n";
             }
             for (int j = 0; j < this.currentGame.length; j++) {
-                result += this.currentGame[i][j] ;
+                result += this.currentGame[j][i] ;
             }
         }
         return result;

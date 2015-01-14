@@ -32,7 +32,7 @@ public class MineSweeperPlayer {
         game.createNewGame(length, width, minesNumber);
 
         do{
-            System.out.println(game.printCurrentGame());
+            System.out.println(game.toStringCurrentGame());
             System.out.println("Please enter the horizontal position of the cell to uncover: ");
             int horizontalPos = Integer.parseInt(readStringFromConsole());
 
