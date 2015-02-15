@@ -1,5 +1,6 @@
 package com.ahidri.minesweeper.buisness;
 
+import com.ahidri.minesweeper.model.Grid;
 import com.ahidri.minesweeper.model.Position;
 
 import java.util.List;
@@ -9,7 +10,7 @@ import java.util.List;
  */
 public class MineSweeperGame {
 
-    private int[][] initializedGrid;
+    private Grid initializedGrid;
     private String[][] currentGame;
     private int uncoveredCellsNumber;
 
@@ -28,26 +29,26 @@ public class MineSweeperGame {
     }
 
     public void play(int horizontalPos, int verticalPos) {
-        if (initializedGrid[verticalPos][horizontalPos] == -1) {
+        Position position = new Position(horizontalPos, verticalPos);
+        if (initializedGrid.isMine(position)) {
             currentGame = null;
         } else {
-            uncoverCell(horizontalPos, verticalPos);
+            uncoverCell(position);
         }
     }
 
-    private void uncoverCell(int horizontalPos, int verticalPos) {
-        Position position = new Position(horizontalPos, verticalPos);
-        List<Position> adjacents = MineSweeperInitializer.getAdjacents(this.initializedGrid.length, this.initializedGrid[0].length, position);
-        if (initializedGrid[verticalPos][horizontalPos] == 0) {
-            this.currentGame[verticalPos][horizontalPos] = "U";
+    private void uncoverCell(Position position) {
+        List<Position> adjacents = initializedGrid.getAdjacents( position);
+        if (initializedGrid.getPositionValue(position) == 0) {
+            this.currentGame[position.getVerticalPos()][position.getHorizontalPos()] = "U";
             this.uncoveredCellsNumber --;
             for (Position adjacent : adjacents) {
                 if(isCoveredCell(adjacent)) {
-                    uncoverCell(adjacent.getHorizontalPos(), adjacent.getVerticalPos());
+                    uncoverCell(adjacent);
                 }
             }
         } else {
-            this.currentGame[verticalPos][horizontalPos] = String.valueOf(initializedGrid[verticalPos][horizontalPos]);
+            this.currentGame[position.getVerticalPos()][position.getHorizontalPos()] = String.valueOf(initializedGrid.getPositionValue(position));
         }
     }
 
@@ -70,19 +71,19 @@ public class MineSweeperGame {
 
     public String toStringInitializedGrid(){
         String result = "";
-        for (int i = 0; i < this.initializedGrid[0].length; i++) {
+        for (int i = 0; i < this.initializedGrid.getWidth(); i++) {
             if(i != 0){
                 result += "\n";
             }
-            for (int j = 0; j < this.initializedGrid.length; j++) {
+            for (int j = 0; j < this.initializedGrid.getLength(); j++) {
 
-                result += this.initializedGrid[j][i] == -1 ? "*" : "-" ;
+                result += this.initializedGrid.isMine(new Position(j,i)) ? "*" : "-" ;
             }
         }
         return result;
     }
 
-    public int[][] getInitializedGrid() {
+    public Grid getInitializedGrid() {
         return initializedGrid;
     }
 
